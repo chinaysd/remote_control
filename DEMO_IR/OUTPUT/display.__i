@@ -1,0 +1,1 @@
+"..\USER\Src\display.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(..\USER\Inc) DEBUG OBJECTEXTEND PRINT(..\LST\display.lst) TABS (2) OBJECT(..\OUTPUT\display.obj)

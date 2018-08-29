@@ -1,0 +1,4 @@
+---- IR1838Processing Matches (3 in 3 files) ----
+Ir1838.c (user\src):void IR1838Processing(void)
+Ir1838.h (user\inc):void IR1838Processing(void);
+SC92F7003_IT.c (user\src):	IR1838Processing();

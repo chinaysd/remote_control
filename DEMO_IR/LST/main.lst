@@ -1,0 +1,182 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              08/29/2018 08:34:22 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN ..\OUTPUT\main.obj
+COMPILER INVOKED BY: D:\keil4\C51\BIN\C51.EXE ..\USER\Src\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\USER\Inc) DEBUG OBJE
+                    -CTEXTEND PRINT(..\LST\main.lst) TABS(2) OBJECT(..\OUTPUT\main.obj)
+
+line level    source
+
+   1          //************************************************************
+   2          //  Copyright (c) ÉîÛÚÊÐÈüÔªÎ¢µç×ÓÓÐÏÞ¹«Ë¾
+   3          //  ÎÄ¼þÃû³Æ  : SC92F7003_DEMO
+   4          //  ×÷Õß    : 
+   5          //  Ä£¿é¹¦ÄÜ  : ºìÍâ½âÂëÓëÏÔÊ¾
+   6          //  ×îºó¸üÕýÈÕÆÚ: 2018/6/18
+   7          //  °æ±¾    : V1.0 
+   8          //  ±¸×¢    : ±¾DEMO½ö×ö²Î¿¼Ö®ÓÃ  
+   9          //*************************************************************
+  10          
+  11          /************************¹¦ÄÜËµÃ÷*******************************************************
+  12          //ºìÍâÒ£¿Ø°´ÏÂÊý×Ö0~9£¬ÊýÂë¹ÜÏÔÊ¾¶ÔÓ¦ÊýÖµ¡£°´ÏÂÆäËûÊýÏÔÊ¾----
+  13          //ºìÍâÎªNEC±àÂë¸ñÊ½£¬ÊýÂë¹ÜÓÉTM1638Çý¶¯
+  14          //Õ¼ÓÃ×ÊÔ´£ºÍâ²¿ÖÐ¶Ï2£¬Timer0£¬IO 
+  15          ****************************************************************************************/
+  16          
+  17          #include "system_init.h"
+  18          
+  19          extern bit T0Flag1ms, T0Flag10ms, T0Flag100ms;        //1ºÁÃë¡¢10ºÁÃë¡¢100ºÁÃë±êÖ¾Î»
+  20          uchar Event_10ms = 0, Event_100ms = 0, Event_500ms = 0;  //10ºÁÃëÖÜÆÚÊÂ¼þ£¬100ºÁÃëÖÜÆÚÊ±¼ä£¬500ºÁÃëÖÜÆÚÊÂ¼
+             -þ
+  21          
+  22          int main(void)
+  23          {
+  24   1        SystemInit();                           //ÏµÍ³³õÊ¼»¯
+  25   1      
+  26   1        while(1)
+  27   1        { 
+  28   2           
+  29   2          if(T0Flag1ms)
+  30   2          {
+  31   3            switch(Event_10ms)
+  32   3            {
+  33   4              case 1: 
+  34   4                              //P2 = 0X30;
+  35   4                break;
+  36   4      
+  37   4              case 2: 
+  38   4                              //P2 = 0X30;
+  39   4                break;
+  40   4      
+  41   4              case 3:
+  42   4                             // P2 = 0X30;
+  43   4                break;
+  44   4      
+  45   4              case 4:   
+  46   4                                //P2 = 0X30;
+  47   4                break;
+  48   4      
+  49   4              case 5:   
+  50   4                               // P2 = 0X30;
+  51   4                break;
+  52   4      
+  53   4              case 6: 
+C51 COMPILER V9.59.0.0   MAIN                                                              08/29/2018 08:34:22 PAGE 2   
+
+  54   4                                //P2 = 0X30;
+  55   4                break;
+  56   4      
+  57   4              case 7: 
+  58   4                                //P2 = 0X30;
+  59   4                break;
+  60   4      
+  61   4                case 8: 
+  62   4                                //P2 = 0X30;
+  63   4                break;
+  64   4              
+  65   4              case 9: 
+  66   4                                //P2 = 0X30;
+  67   4                break;
+  68   4      
+  69   4              default:          
+  70   4                Event_10ms = 0;
+  71   4            }
+  72   3            Event_10ms++;
+  73   3            T0Flag1ms = 0;  
+  74   3          }
+  75   2      
+  76   2          if(T0Flag10ms)
+  77   2          {
+  78   3            switch(Event_100ms)
+  79   3            {
+  80   4              case 1:       
+  81   4                IR_Display();           //ºìÍâ¿ØÖÆÊýÂë¹ÜÏÔÊ¾  
+  82   4                   
+  83   4                break;
+  84   4      
+  85   4              case 2:
+  86   4                              // P2 = 0X30;
+  87   4                break;
+  88   4      
+  89   4              case 3:   
+  90   4                              // P2 = 0X30;
+  91   4                break;
+  92   4      
+  93   4              case 4:   
+  94   4                               //P2 = 0X30;
+  95   4                break;
+  96   4      
+  97   4              case 5:   
+  98   4                               //P2 = 0X30;
+  99   4                break;
+ 100   4      
+ 101   4              case 6:   
+ 102   4                                //P2 = 0X30;
+ 103   4                break;
+ 104   4      
+ 105   4              case 7:   
+ 106   4                               /// P2 = 0X30;
+ 107   4                break;
+ 108   4      
+ 109   4                case 8:   
+ 110   4                              // P2 = 0X30;
+ 111   4                break;
+ 112   4      
+ 113   4              case 9: 
+ 114   4                              // P2 = 0X30;
+ 115   4                break;
+C51 COMPILER V9.59.0.0   MAIN                                                              08/29/2018 08:34:22 PAGE 3   
+
+ 116   4      
+ 117   4              default:            
+ 118   4                Event_100ms = 0;
+ 119   4            }
+ 120   3            Event_100ms++;
+ 121   3            T0Flag10ms = 0; 
+ 122   3          }
+ 123   2      
+ 124   2          if(T0Flag100ms)
+ 125   2          {                   
+ 126   3            switch(Event_500ms)
+ 127   3            {
+ 128   4              case 1: 
+ 129   4                              //P2 = 0X30;
+ 130   4                break;
+ 131   4      
+ 132   4              case 2:
+ 133   4                              // P2 = 0X30;
+ 134   4                  break;
+ 135   4      
+ 136   4              case 3: 
+ 137   4                              // P2 = 0X30;
+ 138   4                break;
+ 139   4      
+ 140   4              case 4:  
+ 141   4                               // P2 = 0X30;
+ 142   4                break;
+ 143   4      
+ 144   4              default:            
+ 145   4                Event_500ms = 0;
+ 146   4            }
+ 147   3            Event_500ms++;
+ 148   3            T0Flag100ms = 0; 
+ 149   3          }   
+ 150   2        }
+ 151   1      }
+ 152          
+ 153          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     70    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,43 @@
+C51 COMPILER V9.59.0.0   GPIO                                                              08/28/2018 21:22:46 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE GPIO
+OBJECT MODULE PLACED IN ..\OUTPUT\gpio.obj
+COMPILER INVOKED BY: D:\keil4\C51\BIN\C51.EXE ..\USER\Src\gpio.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\USER\Inc) DEBUG OBJE
+                    -CTEXTEND PRINT(..\LST\gpio.lst) TABS(2) OBJECT(..\OUTPUT\gpio.obj)
+
+line level    source
+
+   1          #include "gpio.h"
+   2          
+   3          /**************************************************
+   4          *函数名称：GPIO_Init  
+   5          *函数功能：GPIO初始化
+   6          *入口参数：无           
+   7          *出口参数：无
+   8          *功能说明：
+   9          **************************************************/
+  10          void GPIO_Init(void)
+  11          { 
+  12   1        P1CON |= 0X0E;     //TM1638通讯线强推挽
+  13   1        P2CON &= ~0X02;    
+  14   1        
+  15   1        //P2CON |= 0X01;     //TM1638片选线强推挽
+  16   1        P2CON |= 0Xf1;     //TM1638片选线强推挽
+  17   1        P2CON &= ~0X04;    //红外接收口高阻输入
+  18   1        P2PH |= 0X04; 
+  19   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     16    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

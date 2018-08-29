@@ -1,0 +1,12 @@
+"..\OUTPUT\main.obj",
+"..\OUTPUT\SC92F7003_IT.obj",
+"..\OUTPUT\system_init.obj",
+"..\OUTPUT\timer0.obj",
+"..\OUTPUT\ir1838.obj",
+"..\OUTPUT\gpio.obj",
+"..\OUTPUT\display.obj",
+"..\OUTPUT\tm1638.obj",
+"..\OUTPUT\STARTUP.obj" 
+TO "..\OUTPUT\DEMO_IR" 
+PRINT("..\LST\DEMO_IR.m51") RAMSIZE(256) 
+CODE( 0X100 )

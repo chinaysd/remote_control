@@ -1,0 +1,119 @@
+C51 COMPILER V9.59.0.0   TM1638                                                            08/28/2018 21:07:56 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE TM1638
+OBJECT MODULE PLACED IN ..\OUTPUT\tm1638.obj
+COMPILER INVOKED BY: D:\keil4\C51\BIN\C51.EXE ..\USER\Src\tm1638.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\USER\Inc) DEBUG OB
+                    -JECTEXTEND PRINT(..\LST\tm1638.lst) TABS(2) OBJECT(..\OUTPUT\tm1638.obj)
+
+line level    source
+
+   1          #include "tm1638.h"
+   2          #include "intrins.h"
+   3          
+   4          #define nop    _nop_();_nop_();_nop_();_nop_();_nop_();_nop_();
+   5          
+   6          sbit DIO = P1^1;       //数据输入输出脚
+   7          sbit CLK = P1^2;       //时钟输入脚
+   8          sbit STB = P1^3;       //片选脚
+   9          
+  10          uchar code TableNumber[18]={0x3F,0x06,0x5B,0x4F,0x66,0x6D,0x7D,0x07,0x7F,0x6F,0x77,0x7C,0x39,0x5E,0x79,0x7
+             -1,0x00,0X40}; //0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,灭灯，-
+  11          uchar code TablePoint[18] ={0xbf,0x86,0xdb,0xcf,0xeb,0xed,0xfd,0x87,0xff,0xef,0xf7,0xfc,0x99,0xde,0xf9,0xf
+             -1,0x00,0X40};  //0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F（带小数点），灭灯，-
+  12          
+  13          /**************************************************
+  14          *函数名称：SendData 
+  15          *函数功能：往TM1638写一个字节
+  16          *入口参数：dat       字节数据           
+  17          *出口参数：无
+  18          *功能说明：
+  19          **************************************************/
+  20          void SendData(uchar dat)  
+  21          {
+  22   1        uchar i;
+  23   1        for(i=0;i<8;i++)
+  24   1        {  
+  25   2          CLK = 0;
+  26   2          if(dat & 0x01) 
+  27   2            DIO = 1;
+  28   2          else 
+  29   2            DIO = 0;
+  30   2          _nop_();
+  31   2          _nop_();
+  32   2          _nop_();
+  33   2          CLK = 1;
+  34   2          dat >>= 1;
+  35   2        }
+  36   1        CLK=0;
+  37   1        DIO=0;
+  38   1      }
+  39          
+  40          /**************************************************
+  41          *函数名称：SendCommand  
+  42          *函数功能：往TM1638写命令
+  43          *入口参数：Command   命令值           
+  44          *出口参数：无
+  45          *功能说明：
+  46          **************************************************/
+  47          void SendCommand(uchar Command)
+  48          {
+  49   1        STB=0;
+  50   1        SendData(Command);
+  51   1        STB=1;
+  52   1      }
+C51 COMPILER V9.59.0.0   TM1638                                                            08/28/2018 21:07:56 PAGE 2   
+
+  53          
+  54          /**************************************************
+  55          *函数名称：TM1638_Init  
+  56          *函数功能：TM1638初始化
+  57          *入口参数：无           
+  58          *出口参数：无
+  59          *功能说明：脉冲宽度为13/16
+  60          **************************************************/
+  61          void TM1638_Init(void)
+  62          {
+  63   1        uchar i;
+  64   1        SendCommand(0x8A);    //亮度调节
+  65   1        SendCommand(0x40);      
+  66   1        STB = 0;
+  67   1        SendData(0xc0);       
+  68   1        for(i=0;i<16;i++)    //显示寄存器清0
+  69   1        SendData(0x00);
+  70   1        STB = 1;  
+  71   1      }
+  72          
+  73          /**************************************************
+  74          *函数名称：TM1638_DisplayOnlyNumber 
+  75          *函数功能：TM1638显示（仅数字）
+  76          *入口参数：COM1~COM4   对应数码管编码表下标         
+  77          *出口参数：无
+  78          *功能说明：
+  79          **************************************************/
+  80          void TM1638_DisplayOnlyNumber(uchar COM1,uchar COM2,uchar COM3,uchar COM4)
+  81          {
+  82   1        SendCommand(0x40);
+  83   1        STB = 0;
+  84   1        SendData(0xc0 | 0x00);
+  85   1        SendData(TableNumber[COM1]);  SendData(0x00);
+  86   1        SendData(TableNumber[COM2]);  SendData(0x00);
+  87   1        SendData(TableNumber[COM3]);  SendData(0x00);
+  88   1        SendData(TableNumber[COM4]);  SendData(0x00);
+  89   1        STB = 1;    
+  90   1      } 
+  91          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    166    ----
+   CONSTANT SIZE    =     36    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
