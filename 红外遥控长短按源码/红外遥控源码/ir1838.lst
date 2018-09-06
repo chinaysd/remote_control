@@ -1,0 +1,176 @@
+C51 COMPILER V9.59.0.0   IR1838                                                            09/06/2018 11:06:31 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE IR1838
+OBJECT MODULE PLACED IN ir1838.obj
+COMPILER INVOKED BY: D:\keil4\C51\BIN\C51.EXE c\ir1838.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\H) DEBUG OBJECTEXTEND PRINT(.
+                    -\ir1838.lst) TABS(2) OBJECT(ir1838.obj)
+
+line level    source
+
+   1          
+   2          #include "ir1838.h"
+   3          
+   4          
+   5          extern uint IR_Count;         //INT2时间计数值（用以判断引导码或数据码）
+   6          uchar IR_KeyValue[4] = {0,0,0,0};   //系统码、数据码、数据码反码存放数组
+   7          uchar value ;             //遥控器按键键值
+   8          uchar flag;
+   9          uchar LED_FLAG;
+  10          uchar n,ok_decode,aa;
+  11          
+  12          //  红外遥控按键对应码值  
+  13          //    1  2  3        -->     45  46  47
+  14          //    4  5  6    -->     44  40  43
+  15          //    7  8  9    -->     07  15  09
+  16          //    *  0  #    -->     16  19  0D
+  17          //       up      -->       18
+  18          //   lf  ok   rg   -->     08  1C  5A
+  19          //       dn      -->       52
+  20          
+  21          /**************************************************
+  22          *函数名称：IR1838Processing
+  23          *函数功能: 红外数据处理
+  24          *入口参数：无           
+  25          *出口参数：无
+  26          *功能说明：
+  27          **************************************************/
+  28          void IR1838Processing(void)
+  29          {
+  30   1        static uchar  i = 0,j = 0;            
+  31   1        static bit IR_Flag = 1;               //是否开始处理标志位
+  32   1        
+  33   1        n++;
+  34   1        
+  35   1        if(n == 1)
+  36   1        {
+  37   2          IR_Count = 0;
+  38   2        }
+  39   1        if(n == 2)
+  40   1        {
+  41   2          if(IR_Count<=350 && IR_Count>=325)    //引导码，9ms+4.5ms=337.5个，往前往后0.5ms
+  42   2          {
+  43   3            i = 0;                //数组重新接收
+  44   3            IR_Flag = 0;                    //接收到正确的引导码,开始接收数据
+  45   3            IR_Count = 0;
+  46   3            ok_decode=0;
+  47   3            aa = 0;
+  48   3          }
+  49   2          if(IR_Count<=293 && IR_Count>=268)     //重码判断
+  50   2          {
+  51   3            aa++;
+  52   3            if(aa > 9)
+  53   3            {
+  54   4              IR_KeyValue[2] = 0x17;
+C51 COMPILER V9.59.0.0   IR1838                                                            09/06/2018 11:06:31 PAGE 2   
+
+  55   4            }
+  56   3            IR_Count = 0;
+  57   3            n = 0;
+  58   3            IR_Flag = 1;
+  59   3          }
+  60   2          
+  61   2        }
+  62   1        if(IR_Flag == 0)
+  63   1        {            
+  64   2          if(IR_Count<=31 && IR_Count>=25)     //1.120ms,28
+  65   2          {
+  66   3            IR_KeyValue[i] >>= 1;
+  67   3            IR_KeyValue[i] &= 0x7f;
+  68   3            j++;
+  69   3            
+  70   3          }
+  71   2          if(IR_Count<=59 && IR_Count>=53)     //2.240ms,56
+  72   2          {
+  73   3            IR_KeyValue[i] >>= 1;
+  74   3            IR_KeyValue[i] |= 0x80;
+  75   3            j++;
+  76   3            
+  77   3          }
+  78   2          IR_Count = 0;
+  79   2          if(j == 8)
+  80   2          {
+  81   3            j = 0;
+  82   3            i++;
+  83   3            if(i > 3)             //接收完成
+  84   3            {
+  85   4              i = 0;
+  86   4              n = 0;
+  87   4              IR_Flag = 1;
+  88   4              IR_Count = 0;
+  89   4            }
+  90   3          }
+  91   2          
+  92   2        }
+  93   1      }
+  94          
+  95          /**************************************************
+  96          *函数名称：IR_ReadKey
+  97          *函数功能: 读红外遥控器键值
+  98          *入口参数：无           
+  99          *出口参数：无
+ 100          *功能说明：按键0~9有效，其余按键显示----
+ 101          **************************************************/
+ 102            #if 0
+              uchar IR_ReadKey(void)
+              {
+              
+                switch(IR_KeyValue[2])      //数据码
+                  {
+                    case 0x19:
+                      value = 0;
+                      break;
+                    case 0x45:
+                      value = 1;
+                      break;
+                    case 0x46:
+                      value = 2;
+                      break;
+C51 COMPILER V9.59.0.0   IR1838                                                            09/06/2018 11:06:31 PAGE 3   
+
+                    case 0x47:
+                      if(!flag)
+                      {
+                        flag = 1;
+                        value = 3;
+                      }
+                      break;
+                    case 0x44:
+                      value = 4;
+                      break;
+                    case 0x40:
+                      value = 5;
+                      break;
+                    case 0x43:
+                      value = 6;
+                      break;
+                    case 0x07:
+                      value = 7;
+                      break;
+                    case 0x15:
+                      value = 8;
+                      break;
+                    case 0x09:
+                      value = 9;
+                      break;
+                    default:
+                      flag = 0;
+                      value = 17; 
+                  }
+                  return value; 
+              }
+              #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    239    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     12    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

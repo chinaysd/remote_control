@@ -1,0 +1,98 @@
+C51 COMPILER V9.59.0.0   MAIN                                                              09/06/2018 11:06:31 PAGE 1   
+
+
+C51 COMPILER V9.59.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.obj
+COMPILER INVOKED BY: D:\keil4\C51\BIN\C51.EXE c\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\H) DEBUG OBJECTEXTEND PRINT(.\m
+                    -ain.lst) TABS(2) OBJECT(main.obj)
+
+line level    source
+
+   1          #include "H/Function_Init.H"
+   2          
+   3          unsigned char a;
+   4          volatile uint IR_Count;
+   5          extern uchar IR_KeyValue[4];    //系统码、数据码、数据码反码存放数组
+   6          extern unsigned char LED_FLAG;
+   7          extern uchar ok_decode;
+   8          void main(void)
+   9          {
+  10   1        IO_Init();
+  11   1        Timer_Init();
+  12   1        EX_Init();
+  13   1        while(1)
+  14   1        {
+  15   2            if(0x47 == IR_KeyValue[2])
+  16   2            {
+  17   3                P27 = 1;      
+  18   3            }
+  19   2            else
+  20   2            {
+  21   3              P27 = 0;
+  22   3            }
+  23   2        }
+  24   1      }
+  25          
+  26          /*****************************************************
+  27          *函数名称：void EX0/1/2() interrupt 0/2/10
+  28          *函数功能：外部中断初始化
+  29          *入口参数：void
+  30          *出口参数：void
+  31          *****************************************************/
+  32          void EX0() interrupt  0
+  33          {
+  34   1          
+  35   1      }
+  36          
+  37          void EX1() interrupt  2
+  38          {
+  39   1         
+  40   1      }
+  41          
+  42          void EX2() interrupt  10
+  43          {
+  44   1          //P27 = ~P27;
+  45   1          IR1838Processing();
+  46   1         
+  47   1      }
+  48          
+  49          /**************************************************
+  50          *函数名称：void timer0/1/2() interrupt 1/3/5
+  51          *函数功能：定时器中断产生方波
+  52          *入口参数：void
+  53          *出口参数：void
+  54          **************************************************/
+C51 COMPILER V9.59.0.0   MAIN                                                              09/06/2018 11:06:31 PAGE 2   
+
+  55          void timer0() interrupt 1
+  56          {
+  57   1        TL0 = (65536 - 440)%256;
+  58   1        TH0 = (65536 - 440)/256;
+  59   1        //P27 = ~P27;
+  60   1        IR_Count++;
+  61   1      }
+  62          
+  63          void timer1() interrupt 3
+  64          {
+  65   1        
+  66   1      }
+  67          
+  68          void Timer2Int(void) interrupt 5
+  69          {   
+  70   1        TF2 = 0;   //溢出清零
+  71   1          
+  72   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    107    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

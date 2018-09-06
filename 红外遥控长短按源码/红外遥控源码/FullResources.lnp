@@ -1,0 +1,9 @@
+"STARTUP.obj",
+"main.obj",
+"EX_Init.obj",
+"IO_Init.obj",
+"Timer_Init.obj",
+"ir1838.obj" 
+TO "FullResources" 
+RAMSIZE(256) 
+CODE( 0x100 )
