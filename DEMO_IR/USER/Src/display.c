@@ -21,7 +21,7 @@ void IR_Display(void)
     {
        P25 = 1;
     }
-    else if()
+    else 
     {
        P25 = 0;
        P27 = 0;
